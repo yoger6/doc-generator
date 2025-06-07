@@ -5,14 +5,33 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XQENKX923E"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-  
     gtag('config', 'G-XQENKX923E');
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Generator umowy kupna-sprzedaży samochodu",
+      "url": "https://yoger6.github.io/doc-generator/",
+      "applicationCategory": "Utility",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "PLN"
+      }
+    }
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Umowa kupna-sprzedaży samochodu</title>
+  <meta name="description"
+    content="Szybko i za darmo wygeneruj umowę kupna-sprzedaży samochodu w PDF. Prosty kreator online.">
+  <meta name="keywords"
+    content="umowa kupna sprzedaży, samochód, pdf, generator, wzór umowy, pojazd, auto, online, sprzedaż pojazdu, darmowy generator, umowa online">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Kajetan Chmieliński">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
   <style>
@@ -40,13 +59,19 @@
       cursor: pointer;
     }
   </style>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <title>Generator umowy kupna-sprzedaży samochodu</title>
 </head>
 
 <body>
-  <h1>Umowa kupna-sprzedaży samochodu</h1>
+  <h1>Generator umowy kupna-sprzedaży samochodu</h1>
+
+  <h2>Informacje ogólne</h2>
   <input class="long" id="data" placeholder="Data zawarcia umowy (np. 2025-06-07)" />
   <input class="long" id="miejsce" placeholder="Miejsce zawarcia umowy" />
+  <input class="long" id="kwota" placeholder="Cena" />
 
+  <h2>Informacje o sprzedającym</h2>
   <input class="long" id="sprzedajacy" placeholder="Imię i nazwisko sprzedającego" />
   <input class="long" id="sprzedajacy-adres" placeholder="Adres sprzedającego" />
   <input class="long" id="sprzedajacy-dokument" placeholder="Dokument tożsamości sprzedającego" />
@@ -54,6 +79,7 @@
   <input class="long" id="sprzedajacy-pesel" placeholder="PESEL Sprzedającego" />
   <input class="long" id="sprzedajacy-nip" placeholder="NIP Sprzedającego" />
 
+  <h2>Informacje o kupującym</h2>
   <input class="long" id="kupujacy" placeholder="Imię i nazwisko kupującego" />
   <input class="long" id="kupujacy-adres" placeholder="Adres kupującego" />
   <input class="long" id="kupujacy-dokument" placeholder="Dokument tożsamości kupującego" />
@@ -61,36 +87,38 @@
   <input class="long" id="kupujacy-pesel" placeholder="PESEL kupującego" />
   <input class="long" id="kupujacy-nip" placeholder="NIP kupującego" />
 
-
+  <h2>Informacje o pojeździe</h2>
   <input class="long" id="marka" placeholder="Marka i model pojazdu" />
   <input class="long" id="rok" placeholder="Rok produkcji" />
   <input class="long" id="vin" placeholder="Numer VIN" />
   <input class="long" id="rejestracja" placeholder="Numer rejestracyjny" />
   <input class="long" id="przebieg" placeholder="Przebieg" />
-  <input class="long" id="kwota" placeholder="Cena" />
 
+  <h2>Dodatkowe klauzule</h2>
   <ul>
     <li>
       <label>
         <input type="checkbox" id="klauzula1" checked />
-        Sprzedający oświadcza, że pojazd stanowi jego wyłączną własność i jest wolny od wad prawnychoraz praw osób trzecich, iż nie toczy się żadne postępowanie, którego przedmiotem jest ten pojazd, że nie stanowi on również przedmiotu zabezpieczenia.
+        Sprzedający oświadcza, że pojazd stanowi jego wyłączną własność i jest wolny od wad prawnychoraz praw osób
+        trzecich, iż nie toczy się żadne postępowanie, którego przedmiotem jest ten pojazd, że nie stanowi on również
+        przedmiotu zabezpieczenia.
       </label>
     </li>
-
     <li>
       <label>
         <input type="checkbox" id="klauzula2" checked />
         Kupujący oświadcza, że zapoznał się ze stanem technicznym pojazdu.
       </label>
     </li>
-
     <li>
       <label>
         <input type="checkbox" id="klauzula3" checked />
-        Sprzedający oświadcza, że pojazd nie posiada ukrytych wad. 
+        Sprzedający oświadcza, że pojazd nie posiada ukrytych wad.
       </label>
     </li>
   </ul>
+
+  <h2>Koszty zawarcia umowy</h2>
   <ul>
     <li>
       <input type="radio" name="koszty" value="kupujący" checked>
@@ -108,7 +136,7 @@
   </div>
 
   <script>
-    function valueOrPlaceholder(id){
+    function valueOrPlaceholder(id) {
       const element = document.getElementById(id);
       return element.value.trim() || '......................................';
     }
@@ -151,7 +179,7 @@
 
         content: [
           { text: `Umowa zawarta dnia ${data} w miejscowości ${miejsce}`, margin: [0, 0, 0, 10] },
-          {text: 'pomiędzy:'},
+          { text: 'pomiędzy:' },
           { text: `Sprzedającym: ${sprzedajacy}` },
           { text: `Adres: ${sprzedajacyAdres}` },
           { text: `Dokument tożsamości: ${sprzedajacyDokument}, wydany przez ${sprzedajacyDokumentWydany}` },

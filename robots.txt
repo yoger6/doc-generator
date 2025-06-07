@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://yoger6.github.io/doc-generator/sitemap.xml
