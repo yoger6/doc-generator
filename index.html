@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Umowa kupna-sprzedaży samochodu</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .long {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Umowa kupna-sprzedaży samochodu</h1>
+  <input class="long" id="data" placeholder="Data zawarcia umowy (np. 2025-06-07)" />
+  <input class="long" id="miejsce" placeholder="Miejsce zawarcia umowy" />
+
+  <input class="long" id="sprzedajacy" placeholder="Imię i nazwisko sprzedającego" />
+  <input class="long" id="sprzedajacy-adres" placeholder="Adres sprzedającego" />
+  <input class="long" id="sprzedajacy-dokument" placeholder="Dokument tożsamości sprzedającego" />
+  <input class="long" id="sprzedajacy-dokument-wydany" placeholder="Dokument tożsamości sprzedającego wydany przez" />
+  <input class="long" id="sprzedajacy-pesel" placeholder="PESEL Sprzedającego" />
+  <input class="long" id="sprzedajacy-nip" placeholder="NIP Sprzedającego" />
+
+  <input class="long" id="kupujacy" placeholder="Imię i nazwisko kupującego" />
+  <input class="long" id="kupujacy-adres" placeholder="Adres kupującego" />
+  <input class="long" id="kupujacy-dokument" placeholder="Dokument tożsamości kupującego" />
+  <input class="long" id="kupujacy-dokument-wydany" placeholder="Dokument tożsamości kupującego wydany przez" />
+  <input class="long" id="kupujacy-pesel" placeholder="PESEL kupującego" />
+  <input class="long" id="kupujacy-nip" placeholder="NIP kupującego" />
+
+
+  <input class="long" id="marka" placeholder="Marka i model pojazdu" />
+  <input class="long" id="rok" placeholder="Rok produkcji" />
+  <input class="long" id="vin" placeholder="Numer VIN" />
+  <input class="long" id="rejestracja" placeholder="Numer rejestracyjny" />
+  <input class="long" id="przebieg" placeholder="Przebieg" />
+  <input class="long" id="kwota" placeholder="Cena" />
+
+  <ul>
+    <li>
+      <label>
+        <input type="checkbox" id="klauzula1" checked />
+        Sprzedający oświadcza, że pojazd stanowi jego wyłączną własność i jest wolny od wad prawnychoraz praw osób trzecich, iż nie toczy się żadne postępowanie, którego przedmiotem jest ten pojazd, że nie stanowi on również przedmiotu zabezpieczenia.
+      </label>
+    </li>
+
+    <li>
+      <label>
+        <input type="checkbox" id="klauzula2" checked />
+        Kupujący oświadcza, że zapoznał się ze stanem technicznym pojazdu.
+      </label>
+    </li>
+
+    <li>
+      <label>
+        <input type="checkbox" id="klauzula3" checked />
+        Sprzedający oświadcza, że pojazd nie posiada ukrytych wad. 
+      </label>
+    </li>
+  </ul>
+  <ul>
+    <li>
+      <input type="radio" name="koszty" value="kupujący" checked>
+      Koszty zawarcia umowy i opłaty skarbowe ponosi kupujący.
+      </input>
+    </li>
+    <li>
+      <input type="radio" name="koszty" value="sprzedający">
+      Koszty zawarcia umowy i opłaty skarbowe ponosi sprzedający.
+    </li>
+    </input>
+  </ul>
+  <div style="text-align: center; margin-top: 20px;">
+    <button onclick="generatePDF()">Wygeneruj PDF</button>
+  </div>
+
+  <script>
+    function valueOrPlaceholder(id){
+      const element = document.getElementById(id);
+      return element.value.trim() || '......................................';
+    }
+
+    function generatePDF() {
+      const sprzedajacy = valueOrPlaceholder("sprzedajacy");
+      const sprzedajacyAdres = valueOrPlaceholder("sprzedajacy-adres");
+      const sprzedajacyDokument = valueOrPlaceholder("sprzedajacy-dokument");
+      const sprzedajacyDokumentWydany = valueOrPlaceholder("sprzedajacy-dokument-wydany");
+      const sprzedajacyPesel = valueOrPlaceholder("sprzedajacy-pesel");
+      const sprzedajacyNip = valueOrPlaceholder("sprzedajacy-nip");
+      const kupujacy = valueOrPlaceholder("kupujacy");
+      const kupujacyAdres = valueOrPlaceholder("kupujacy-adres");
+      const kupujacyDokument = valueOrPlaceholder("kupujacy-dokument");
+      const kupujacyDokumentWydany = valueOrPlaceholder("kupujacy-dokument-wydany");
+      const kupujacyPesel = valueOrPlaceholder("kupujacy-pesel");
+      const kupujacyNip = valueOrPlaceholder("kupujacy-nip");
+      const data = valueOrPlaceholder("data");
+      const miejsce = valueOrPlaceholder("miejsce");
+      const marka = valueOrPlaceholder("marka");
+      const rok = valueOrPlaceholder("rok");
+      const vin = valueOrPlaceholder("vin");
+      const rejestracja = valueOrPlaceholder("rejestracja");
+      const przebieg = valueOrPlaceholder("przebieg");
+      const kwota = valueOrPlaceholder("kwota");
+      const koszta = document.querySelector('input[type="radio"][name="koszty"]:checked').value ?? 'kupujący';
+      const klauzula1 = document.getElementById("klauzula1").checked;
+      const klauzula2 = document.getElementById("klauzula2").checked;
+      const klauzula3 = document.getElementById("klauzula3").checked;
+
+      const docDefinition = {
+        pageSize: 'A4',
+        pageMargins: [40, 60, 40, 60],
+
+        header: {
+          columns: [
+            { text: 'Umowa kupna-sprzedaży', style: 'headerTitle', alignment: 'center' }
+          ]
+        },
+
+        content: [
+          { text: `Umowa zawarta dnia ${data} w miejscowości ${miejsce}`, margin: [0, 0, 0, 10] },
+          {text: 'pomiędzy:'},
+          { text: `Sprzedającym: ${sprzedajacy}` },
+          { text: `Adres: ${sprzedajacyAdres}` },
+          { text: `Dokument tożsamości: ${sprzedajacyDokument}, wydany przez ${sprzedajacyDokumentWydany}` },
+          { text: `PESEL: ${sprzedajacyPesel} NIP: ${sprzedajacyNip}` },
+
+          { text: `a Kupującym: ${kupujacy}` },
+          { text: `Adres: ${kupujacyAdres}` },
+          { text: `Dokument tożsamości: ${kupujacyDokument}, wydany przez ${kupujacyDokumentWydany}` },
+          { text: `PESEL: ${kupujacyPesel} NIP: ${kupujacyNip}` },
+
+          { text: '§1', style: 'clause' },
+          { text: 'Przedmiotem umowy jest sprzedaż pojazdu:' },
+          { text: `Marka: ${marka} Rok produkcji: ${rok}` },
+          { text: `Numer VIN: ${vin}` },
+          { text: `Numer rejestracyjny: ${rejestracja}` },
+          { text: `Przebieg: ${przebieg}` },
+
+          { text: '§2', style: 'clause' },
+          { text: `Strony ustaliły wartość przedmiotu umowy na kwotę: ${kwota}` },
+
+          { text: '§3', style: 'clause' },
+          { text: `Koszty zawarcia umowy i opłaty skarbowe ponosi ${koszta}.` },
+        ],
+
+        styles: {
+          headerTitle: {
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 10]
+          },
+          clause: {
+            fontSize: 12,
+            bold: true,
+            margin: [0, 15, 0, 5],
+            decoration: 'underline',
+            alignment: 'center'
+          }
+        }
+      };
+
+      let currentClause = 4;
+      function addClause(identifier) {
+        console.log('adding', identifier);
+        docDefinition.content.push(
+          { text: `§${currentClause++}`, style: 'clause' },
+          { text: document.getElementById(identifier).closest('label').textContent.trim() }
+        )
+      }
+
+
+      if (klauzula1) {
+        addClause('klauzula1');
+      }
+      if (klauzula2) {
+        addClause('klauzula2');
+      }
+      if (klauzula3) {
+        addClause('klauzula3');
+      }
+
+      docDefinition.content.push(
+        { text: `§${currentClause}`, style: 'clause' },
+        { text: 'Umowę sporządzono w dwóch jednobrzmiących egzemplarzach, po jednym dla każdej ze stron.' });
+
+      docDefinition.content.push(
+        {
+          columns: [
+            { text: 'Sprzedający:\n\n\n___________________', width: '*', margin: [0, 20, 0, 0] },
+            { text: 'Kupujący:\n\n\n___________________', width: '*', margin: [20, 20, 0, 0] }
+          ]
+        }
+      );
+
+      pdfMake.createPdf(docDefinition).open();
+    }
+  </script>
+</body>
+
+</html>
